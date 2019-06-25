@@ -60,5 +60,27 @@
 }
 
 .text-logout {
+    padding: 9px;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+}
+
+.text-logout:hover {
+    background-color: #66cdaa;
+}
+
+.text-logout:hover a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.text-logout a {
+    color: #66cdaa;
+    font-weight: bold;
+}
+
+.user-name {
     margin: 9px;
+    color: #66cdaa;
+    font-weight: bold;
 }

@@ -27,7 +27,7 @@ function Navigation({ login = true, dispatch, users, authedUser }) {
                         <Nav.Link eventKey="leader-board">Leader Board</Nav.Link>
                     </Nav.Item>
                     <div className="nav-logout">
-                        <div className="text-logout">
+                        <div className="user-name">
                             <span className="authed-user">Hello, {user.name} </span>
                         </div>
                         <img src={require(`../../resources/icons/${user.avatarURL}`)} alt="Avatar" className="avatar" />

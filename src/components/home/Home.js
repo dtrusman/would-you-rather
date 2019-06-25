@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Question, Board } from '../';
+import { Question, Board, QuestionCard } from '../';
 import { ROUTES } from '../nav/Nav';
 import { Tabs, Tab } from 'react-bootstrap';
 
@@ -17,7 +17,6 @@ class Home extends Component {
     }
 
     handleSelect = (selected) => {
-        console.log('selected', selected)
         this.setState({ key: selected });
     }
 
@@ -25,8 +24,12 @@ class Home extends Component {
         return (
             <div>
                 <Tabs fill activeKey={this.state.key} onSelect={this.handleSelect} className="tab-list">
-                    <Tab eventKey={1} title="Unanswered Questions" className="tab-item">Unanswered Questions Contente</Tab>
-                    <Tab eventKey={2} title="Answered Questions" className="tab-item">Answered Questions Cntent</Tab>
+                    <Tab eventKey={1} title="Unanswered Questions" className="tab-item">
+                        <QuestionCard />
+                    </Tab>
+                    <Tab eventKey={2} title="Answered Questions" className="tab-item">
+                        Answered Questions Cntent
+                    </Tab>
                 </Tabs>
             </div>
         )

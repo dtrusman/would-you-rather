@@ -1,18 +1,32 @@
 .tab-list {
     min-width: 600px;
     margin-top: 15px;
-    border: 2px solid #cecece;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    border: 1px solid #cecece;
 }
 
 .tab-list a {
-    border-top-left-radius: 5px !important;
-    border-top-right-radius: 5px !important;
     margin: 0;
 }
 
 .tab-list a:hover {
     border: none;
     margin: 0;
+}
+
+.tab-list .active {
+    background-color: #f2f2f2 !important;
+    color: #66cdaa !important;
+    font-weight: bold;
+}
+
+.tab-item {
+    padding: 5px;
+}
+
+.tab-content {
+    border: 1px solid #cecece;
+}
+
+.tab-content > div {
+    background-color: transparent !important;
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setAuthedUser } from '../../actions/authedUser';
+import { setSelectedTab } from '../../actions/selectedTab';
 
 import './Logout.css';
 
@@ -11,6 +12,7 @@ function Logout({dispatch, users, authedUser}) {
 
     function handleLogout() {
         dispatch(setAuthedUser(null));
+        dispatch(setSelectedTab(null));
     }
 
     return (

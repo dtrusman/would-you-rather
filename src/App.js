@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LoadingBar from 'react-redux-loading';
-import { Login, Home, Nav } from './components';
+import { Login, Home, Question, Board, Nav } from './components';
 
 import { handleInitialDate } from './actions/shared';
 
@@ -25,6 +25,8 @@ class App extends Component {
                     <div className="app-body">
                         <Route exact path="/" component={Login} />
                         <Route path="/home" component={Home} />
+                        <Route path="/new" component={Question} />
+                        <Route path="/board" component={Board} />
                     </div>
                 </div>
             </Router>

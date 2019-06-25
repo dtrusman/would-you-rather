@@ -1,0 +1,35 @@
+.select-container {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    word-wrap: normal;
+}
+
+select:required:invalid {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+option[value=""][disabled] {
+    display: none;
+}
+
+option {
+    color: black;
+}
+
+.option-user {
+    border: 1px solid;
+}
+
+.select-item {
+    background-color: red;
+}

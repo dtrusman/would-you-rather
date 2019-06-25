@@ -1,0 +1,32 @@
+.navbar {
+    display: flex;
+    justify-content: center;
+    background-color: #66cdaa;
+}
+
+.brand {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.login-card {
+    align-self: center;
+}
+
+.card-header {
+    text-align: center;
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+.card-subtitle {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.login-button {
+    margin-top: 5px;
+    background-color: #66cdaa;
+    border: none;
+}

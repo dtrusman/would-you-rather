@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Navbar, Card, Button } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
+import { setAuthedUser } from '../../actions/authedUser';
 import SweetAlert from 'react-bootstrap-sweetalert';
 import Select from '../select/Select';
 import './Login.css';
@@ -13,14 +14,16 @@ class Login extends Component {
 
         this.state = {
             redirect: false,
-            alert: false
+            alert: false,
+            authedUser: null
         }
     }
 
     singIn = () => {
-        const { authedUser } = this.props;
-
+        const { authedUser } = this.state;
+        
         if (authedUser !== null) {
+            this.props.dispatch(setAuthedUser(authedUser));
             this.setState({ redirect: true });
         }
         else {
@@ -30,6 +33,10 @@ class Login extends Component {
 
     hideAlert = () => {
         this.setState({ alert: false });
+    }
+
+    handleChangeUser = (authedUser) => {
+        this.setState({ authedUser });
     }
 
     render() {
@@ -50,24 +57,16 @@ class Login extends Component {
 
         return (
             <Fragment>
-                <Navbar expand="lg" className="navbar">
-                    <Navbar.Brand href="#">
-                        <span className="brand">Login</span>
-                    </Navbar.Brand>
-                </Navbar>
-
-                <div className="App">
-                    <Card className="login-card">
-                        <Card.Header className="card-header">
-                            <Card.Title className="card-title">Welcome to the Would You Rather App!</Card.Title>
-                            <Card.Subtitle className="card-subtitle">Please sign in to continue</Card.Subtitle>
-                        </Card.Header>
-                        <Card.Body>
-                            <Select users={users} />
-                            <Button className="login-button" size="md" block onClick={this.singIn}>Sign in</Button>
-                        </Card.Body>
-                    </Card>
-                </div>
+                <Card className="login-card">
+                    <Card.Header className="card-header">
+                        <Card.Title className="card-title">Welcome to the Would You Rather App!</Card.Title>
+                        <Card.Subtitle className="card-subtitle">Please sign in to continue</Card.Subtitle>
+                    </Card.Header>
+                    <Card.Body>
+                        <Select users={users} onChange={this.handleChangeUser} />
+                        <Button className="login-button" size="md" block onClick={this.singIn}>Sign in</Button>
+                    </Card.Body>
+                </Card>
             </Fragment>
         )
     }

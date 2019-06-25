@@ -1,15 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { setAuthedUser } from '../../actions/authedUser';
 
 import './Select.css';
 
-function Select({ users, dispatch }) {
+export default function Select({ users, onChange }) {
 
     function handleChange(e) {
         e.preventDefault();
+
         const authedUser = e.target.value;
-        dispatch(setAuthedUser(authedUser));
+
+        onChange(authedUser);
     }
 
     return (
@@ -25,5 +25,3 @@ function Select({ users, dispatch }) {
         </div>
     )
 }
-
-export default connect()(Select)

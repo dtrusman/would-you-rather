@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 class Board extends Component {
     render() {
         return (
-            <div>Board</div>
+            <div>Boardaaa</div>
         )
     }
 }

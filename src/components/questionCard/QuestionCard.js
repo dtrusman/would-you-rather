@@ -7,6 +7,8 @@ import { TAB_KEY } from '../home/Home';
 
 class QuestionCard extends Component {
 
+    _isMounted = false;
+
     constructor(props) {
         super(props);
 
@@ -18,12 +20,20 @@ class QuestionCard extends Component {
     }
 
     async componentDidMount() {
+        this._isMounted = true;
+
         const [questionsUnanswered, questionsAnswered] = await this.filterQuestions();
 
-        this.setState({
-            questionsUnanswered,
-            questionsAnswered
-        });
+        if (this._isMounted) {
+            this.setState({
+                questionsUnanswered,
+                questionsAnswered
+            });
+        }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -51,6 +61,7 @@ class QuestionCard extends Component {
             let qa = [];
             let qu = [];
 
+            /* eslint-disable-next-line */
             Object.values(questions).map(question => {
                 const [user] = Object.values(users).filter(u => u.id === authedUser);
 

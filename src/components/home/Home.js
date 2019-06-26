@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Question, Board, QuestionCard } from '../';
+import { NewQuestion, Board, QuestionCard } from '../';
 import { ROUTES } from '../nav/Nav';
 import { Tabs, Tab } from 'react-bootstrap';
 
@@ -45,7 +45,7 @@ class Home extends Component {
 
         switch (tab) {
             case ROUTES.NEW:
-                return <Question />;
+                return <NewQuestion />;
             case ROUTES.BOARD:
                 return <Board />;
             default:

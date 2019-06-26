@@ -25,6 +25,8 @@
 
 .tab-content {
     border: 1px solid #cecece;
+    height: 90%;
+    overflow-y: auto;
 }
 
 .tab-content > div {

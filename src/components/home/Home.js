@@ -6,13 +6,18 @@ import { Tabs, Tab } from 'react-bootstrap';
 
 import './Home.css';
 
+export const TAB_KEY = {
+    UNANSWERED: 'UNANSWERED',
+    ANSWERED: 'ANSWERED'
+}
+
 class Home extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            key: 1
+            key: TAB_KEY.UNANSWERED
         }
     }
 
@@ -24,11 +29,11 @@ class Home extends Component {
         return (
             <div>
                 <Tabs fill activeKey={this.state.key} onSelect={this.handleSelect} className="tab-list">
-                    <Tab eventKey={1} title="Unanswered Questions" className="tab-item">
-                        <QuestionCard />
+                    <Tab eventKey={TAB_KEY.UNANSWERED} title="Unanswered Questions" className="tab-item">
+                        <QuestionCard currentTab={this.state.key} />
                     </Tab>
-                    <Tab eventKey={2} title="Answered Questions" className="tab-item">
-                        Answered Questions Cntent
+                    <Tab eventKey={TAB_KEY.ANSWERED} title="Answered Questions" className="tab-item">
+                        <QuestionCard currentTab={this.state.key} />
                     </Tab>
                 </Tabs>
             </div>

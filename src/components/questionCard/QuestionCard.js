@@ -67,9 +67,9 @@ class QuestionCard extends Component {
 
 
                 if (user && Object.keys(user.answers).includes(question.id)) {
-                    qu.push(question);
-                } else if (user && !Object.keys(user.answers).includes(question.id)) {
                     qa.push(question);
+                } else if (user && !Object.keys(user.answers).includes(question.id)) {
+                    qu.push(question);
                 }
 
             });

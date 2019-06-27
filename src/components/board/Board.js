@@ -50,12 +50,32 @@ class Board extends Component {
         )
     }
 
-    render() {
+    sortUsers = () => {
         const { users } = this.props;
+
+        return Object.values(users).sort((a, b) => {
+            const resA = Object.keys(a.answers).length + a.questions.length;
+            const resB = Object.keys(b.answers).length + b.questions.length;
+
+            if (resA > resB) {
+                return -1;
+            }
+
+            if (resA < resB) {
+                return 1
+            }
+
+            return 0
+        });
+    }
+
+    render() {
+
+        const leaders = this.sortUsers();
 
         return (
             <div className="board-container">
-                {Object.values(users).map(this.renderItem)}
+                {leaders.map(this.renderItem)}
             </div>
         )
     }

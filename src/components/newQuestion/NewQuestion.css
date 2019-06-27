@@ -67,3 +67,7 @@
     background-color: #66caaa;
     color: #ffffff;
 }
+
+.new-question-button:disabled {
+    background-color: rgba(102, 205, 170, 1);
+}

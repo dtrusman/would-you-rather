@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Form, ProgressBar } from 'react-bootstrap';
 
 import './QuestionCard.css';
 import { TAB_KEY } from '../home/Home';
@@ -16,6 +16,7 @@ class QuestionCard extends Component {
             currentTab: TAB_KEY.UNANSWERED,
             questionsUnanswered: null,
             questionsAnswered: null,
+            question: null
         }
     }
 
@@ -78,6 +79,10 @@ class QuestionCard extends Component {
         })
     }
 
+    reply = (question) => {
+        this.setState({ question })
+    }
+
     renderItem = (question) => {
         const { users } = this.props;
 
@@ -91,17 +96,89 @@ class QuestionCard extends Component {
                     <div className="question-content">
                         <div className="title">Would you rather</div>
                         <div className="question-text">{`...${question.optionOne.text}...`}</div>
-                        <Button variant="outline-light" className="question-button">View Poll</Button>
+                        <Button variant="outline-light" className="question-button" onClick={() => this.reply(question)}>View Poll</Button>
                     </div>
                 </Card.Body>
             </Card>
         )
     }
 
+    cancelQuestion = () => {
+        this.setState({ question: null })
+    }
+
+    renderReply = () => {
+        const { users, currentTab } = this.props;
+        const { question } = this.state;
+
+        return (
+            <Card key={question.id} className="question-container">
+                <Card.Header>{`${question.author} asks:`}</Card.Header>
+                <Card.Body className="question-body">
+                    <div className="user-image">
+                        <img src={require(`../../resources/icons/${users[question.author].avatarURL}`)} alt="Avatar" className="question-avatar" />
+                    </div>
+                    <div className="question-content">
+                        {currentTab === TAB_KEY.UNANSWERED ? this.renderQuestionContent(question) : this.renderResult(question)}
+                    </div>
+                </Card.Body>
+            </Card>
+        )
+    }
+
+    renderResult = (question) => {
+        return (
+            <Fragment>
+                <div className="title">Results</div>
+                <div>
+                    <div className="results">
+                        <div className="question-text"><span>{`Would you rather ${question.optionOne.text}?`}</span></div>
+                        <div className="results-progress"><ProgressBar now={66.7} label={`66.7%`} /></div>
+                        <div className="votes-text"><span>2 out of 3 votes</span></div>
+                    </div>
+
+                    <div className="results">
+                        <div className="question-text"><span>{`Would you rather ${question.optionTwo.text}?`}</span></div>
+                        <div className="results-progress"><ProgressBar now={33.3} label={`33.3%`} /></div>
+                        <div className="votes-text"><span>1 out of 3 votes</span></div>
+                    </div>
+                </div>
+            </Fragment>
+        )
+    }
+
+    renderQuestionContent = (question) => {
+        return (
+            <Fragment>
+                <div className="title">Would you rather</div>
+                <Form>
+                    <Form.Check
+                        custom
+                        type='radio'
+                        label={question.optionOne.text}
+                        name="questionOptions"
+                        id={`${question.id}-one`}
+                    />
+                    <Form.Check
+                        custom
+                        type='radio'
+                        label={question.optionTwo.text}
+                        name="questionOptions"
+                        id={`${question.id}-two`}
+                    />
+                    <Button variant="outline-light" className="response-button">Submit</Button>
+                    <Button variant="outline-light" className="response-button-cancel" onClick={this.cancelQuestion}>Cancel</Button>
+                </Form>
+            </Fragment>
+        )
+    }
+
     render() {
-        const { questionsUnanswered, questionsAnswered, currentTab } = this.state;
+        const { questionsUnanswered, questionsAnswered, currentTab, question } = this.state;
 
         const questions = currentTab === TAB_KEY.UNANSWERED ? questionsUnanswered : questionsAnswered;
+
+        if (question !== null) return this.renderReply();
 
         if (questions) {
             return questions.map(question => {

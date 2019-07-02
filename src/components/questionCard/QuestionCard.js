@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Card, Button, Form, ProgressBar } from 'react-bootstrap';
+import { saveQuestionAnswer } from '../../utils/api';
+import { handleInitialDate } from '../../actions/shared';
 
 import './QuestionCard.css';
 import { TAB_KEY } from '../home/Home';
@@ -16,7 +18,8 @@ class QuestionCard extends Component {
             currentTab: TAB_KEY.UNANSWERED,
             questionsUnanswered: null,
             questionsAnswered: null,
-            question: null
+            question: null,
+            chosenOption: null,
         }
     }
 
@@ -129,7 +132,7 @@ class QuestionCard extends Component {
     renderResult = (question) => {
         const { users, authedUser } = this.props;
         const chosenOption = users[authedUser].answers[question.id];
-        console.log('chosenOption......', chosenOption);
+
         const votesOptionOne = question.optionOne.votes.length;
         const votesOptionTwo = question.optionTwo.votes.length;
         const totalVotes = votesOptionOne + votesOptionTwo;
@@ -159,17 +162,34 @@ class QuestionCard extends Component {
         )
     }
 
+    submitAnswer = async (e) => {
+        e.preventDefault();
+
+        const { chosenOption, question } = this.state;
+
+        const { authedUser } = this.props;
+        await saveQuestionAnswer({ authedUser, qid: question.id, answer: chosenOption });
+
+        this.props.dispatch(handleInitialDate());
+    }
+
+    handleOption = (e) => {
+        this.setState({ chosenOption: e.target.value });
+    }
+
     renderQuestionContent = (question) => {
         return (
             <Fragment>
                 <div className="title">Would you rather</div>
-                <Form>
+                <Form onSubmit={this.submitAnswer}>
                     <Form.Check
                         custom
                         type='radio'
                         label={question.optionOne.text}
                         name="questionOptions"
                         id={`${question.id}-one`}
+                        value="optionOne"
+                        onChange={this.handleOption}
                     />
                     <Form.Check
                         custom
@@ -177,8 +197,10 @@ class QuestionCard extends Component {
                         label={question.optionTwo.text}
                         name="questionOptions"
                         id={`${question.id}-two`}
+                        value="optionTwo"
+                        onChange={this.handleOption}
                     />
-                    <Button variant="outline-light" className="response-button">Submit</Button>
+                    <Button variant="outline-light" className="response-button" type="submit">Submit</Button>
                     <Button variant="outline-light" className="response-button-cancel" onClick={this.cancelQuestion}>Cancel</Button>
                 </Form>
             </Fragment>

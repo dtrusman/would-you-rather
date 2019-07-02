@@ -115,8 +115,8 @@ class QuestionCard extends Component {
             <Card key={question.id} className="question-container">
                 <Card.Header>{`${question.author} asks:`}</Card.Header>
                 <Card.Body className="question-body">
-                    <div className="user-image">
-                        <img src={require(`../../resources/icons/${users[question.author].avatarURL}`)} alt="Avatar" className="question-avatar" />
+                    <div className="user-image-results">
+                        <img src={require(`../../resources/icons/${users[question.author].avatarURL}`)} alt="Avatar" className="question-avatar-results" />
                     </div>
                     <div className="question-content">
                         {currentTab === TAB_KEY.UNANSWERED ? this.renderQuestionContent(question) : this.renderResult(question)}
@@ -127,20 +127,32 @@ class QuestionCard extends Component {
     }
 
     renderResult = (question) => {
+        const { users, authedUser } = this.props;
+        const chosenOption = users[authedUser].answers[question.id];
+        console.log('chosenOption......', chosenOption);
+        const votesOptionOne = question.optionOne.votes.length;
+        const votesOptionTwo = question.optionTwo.votes.length;
+        const totalVotes = votesOptionOne + votesOptionTwo;
+        const percentOne = parseFloat(votesOptionOne / totalVotes * 100).toFixed(1);
+        const percentTwo = parseFloat(votesOptionTwo / totalVotes * 100).toFixed(1);
+
         return (
             <Fragment>
-                <div className="title">Results</div>
+                <div className="title">
+                    <span>Results</span>
+                    <Button className="cancel-button" onClick={this.cancelQuestion}>X</Button>
+                </div>
                 <div>
-                    <div className="results">
-                        <div className="question-text"><span>{`Would you rather ${question.optionOne.text}?`}</span></div>
-                        <div className="results-progress"><ProgressBar now={66.7} label={`66.7%`} /></div>
-                        <div className="votes-text"><span>2 out of 3 votes</span></div>
+                    <div className={`results ${chosenOption === 'optionOne' && 'voted'}`}>
+                        <div className="question-text "><span>{`Would you rather ${question.optionOne.text}?`}</span></div>
+                        <div className="results-progress"><ProgressBar now={percentOne} label={`${percentOne}%`} /></div>
+                        <div className="votes-text"><span>{`${votesOptionOne} out of ${totalVotes} votes`}</span></div>
                     </div>
 
-                    <div className="results">
+                    <div className={`results ${chosenOption === 'optionTwo' && 'voted'}`}>
                         <div className="question-text"><span>{`Would you rather ${question.optionTwo.text}?`}</span></div>
-                        <div className="results-progress"><ProgressBar now={33.3} label={`33.3%`} /></div>
-                        <div className="votes-text"><span>1 out of 3 votes</span></div>
+                        <div className="results-progress"><ProgressBar now={percentTwo} label={`${percentTwo}%`} /></div>
+                        <div className="votes-text"><span>{`${votesOptionTwo} out of ${totalVotes} votes`}</span></div>
                     </div>
                 </div>
             </Fragment>

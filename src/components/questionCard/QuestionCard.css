@@ -41,6 +41,8 @@
 .title {
     font-size: 18px;
     font-weight: bold;
+    display: flex;
+    justify-content: space-between;
 }
 
 .question-text {
@@ -80,13 +82,16 @@ label {
 }
 
 .results {
-    /* background-color: #c7fce9;aachr */
     padding: 15px;
     border: 1px solid darkgreen;
     border-radius: 5px;
     line-height: 1.2rem;
     color: darkgreen;
     margin-top: 5px;
+}
+
+.voted {
+    background-color: #c7fce9;
 }
 
 .results-progress {
@@ -110,4 +115,23 @@ label {
 .question-text {
     font-size: 14px;
     font-weight: bold;
+}
+
+.question-avatar-results {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.user-image-results {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    border-right: 1px solid #cecece;
+}
+
+.cancel-button {
+    background-color: #66cdaa;
+    border-color: #66cdaa;
 }

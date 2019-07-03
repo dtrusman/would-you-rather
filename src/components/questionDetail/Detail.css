@@ -2,3 +2,8 @@
     width: 55%;
     height: 35%;
 }
+
+.response-button:disabled {
+    background-color: rgba(102, 205, 170, 1);
+    color: #ffffff;
+}

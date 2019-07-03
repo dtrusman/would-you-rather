@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Card, Form, Button, ProgressBar } from 'react-bootstrap';
+import { Card, Form, Button, ProgressBar, Spinner } from 'react-bootstrap';
 import { TAB_KEY } from '../home/Home';
 
 import { saveQuestionAnswer, getQuestion } from '../../utils/api';
@@ -14,6 +14,7 @@ class Detail extends Component {
 
         this.state = {
             chosenOption: null,
+            loading: false,
         }
     }
 
@@ -23,6 +24,7 @@ class Detail extends Component {
 
     submitAnswer = async (e) => {
         e.preventDefault();
+        this.setState({ loading: true });
 
         const { chosenOption } = this.state;
         const { question, authedUser } = this.props;
@@ -33,6 +35,8 @@ class Detail extends Component {
             const questions = await getQuestion();
 
             this.props.update(questions[question.id]);
+
+            this.setState({ loading: false });
         }
 
     }
@@ -41,7 +45,30 @@ class Detail extends Component {
         this.setState({ chosenOption: e.target.value });
     }
 
+    disableButton = () => {
+        const { chosenOption } = this.state;
+
+        return chosenOption === null ? true : false;
+    }
+
+    renderSpinner = () => {
+        return (
+            <Fragment>
+                <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                />
+                <span className="sr-only">Loading...</span>
+            </Fragment>
+        )
+    }
+
     renderQuestionContent = (question) => {
+        const { loading } = this.state;
+
         return (
             <Fragment>
                 <div className="title">Would you rather</div>
@@ -64,7 +91,9 @@ class Detail extends Component {
                         value="optionTwo"
                         onChange={this.handleOption}
                     />
-                    <Button variant="outline-light" className="response-button" type="submit">Submit</Button>
+                    <Button variant="outline-light" className="response-button" type="submit" disabled={this.disableButton()}>
+                        {loading ? this.renderSpinner() : 'Submit'}
+                    </Button>
                     <Button variant="outline-light" className="response-button-cancel" onClick={this.cancelQuestion}>Cancel</Button>
                 </Form>
             </Fragment>

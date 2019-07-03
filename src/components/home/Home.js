@@ -33,7 +33,7 @@ class Home extends Component {
     }
 
     resetQuestion = () => {
-        this.setState({ question: null });
+        this.setState({ question: null, result: false });
     }
 
     updateData = (question) => {

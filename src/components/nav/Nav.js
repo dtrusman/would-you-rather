@@ -59,7 +59,7 @@ class Navigation extends Component {
 
         switch (route) {
             case ROUTES.NEW:
-                return <Redirect to="/new" />
+                return <Redirect to="/add" />
             case ROUTES.BOARD:
                 return <Redirect to="/leaderboard" />
             case ROUTES.HOME:

@@ -25,7 +25,7 @@ class App extends Component {
                     <div className="app-body">
                         <Route exact path="/" component={Login} />
                         <Route path="/home" component={Home} />
-                        <Route path="/new" component={NewQuestion} />
+                        <Route path="/add" component={NewQuestion} />
                         <Route path="/leaderboard" component={Board} />
                         <Route path="/question/:question_id" render={props => <Detail {...props} />} />
 

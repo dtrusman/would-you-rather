@@ -112,7 +112,6 @@ class Detail extends Component {
             <Fragment>
                 <div className="title">
                     <span>Results</span>
-                    <Button className="cancel-button" onClick={this.cancelQuestion}>X</Button>
                 </div>
                 <div>
                     <div className={`results ${chosenOption === 'optionOne' && 'voted'}`}>

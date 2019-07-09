@@ -102,10 +102,27 @@ class QuestionCard extends Component {
         )
     }
 
+    sortQuestions = (questions) => {
+        if (questions) {
+            return questions.sort((a, b) => {
+            
+                if (a.timestamp > b.timestamp) {
+                    return -1;
+                }
+
+                if (a.timestamp < b.timestamp) {
+                    return 1
+                }
+
+                return 0
+            });
+        }
+    }
+
     render() {
         const { questionsUnanswered, questionsAnswered, currentTab } = this.state;
 
-        const questions = currentTab === TAB_KEY.UNANSWERED ? questionsUnanswered : questionsAnswered;
+        const questions = currentTab === TAB_KEY.UNANSWERED ? this.sortQuestions(questionsUnanswered) : this.sortQuestions(questionsAnswered);
 
         if (questions) {
             return questions.map(question => {

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { QuestionCard, Detail } from '../';
+import { QuestionCard } from '../';
 import { Tabs, Tab } from 'react-bootstrap';
-import { handleInitialDate } from '../../actions/shared';
-
+import { Redirect } from 'react-router-dom';
 import './Home.css';
 
 export const TAB_KEY = {
@@ -19,7 +18,6 @@ class Home extends Component {
         this.state = {
             key: TAB_KEY.UNANSWERED,
             question: null,
-            result: false,
         }
     }
 
@@ -29,16 +27,6 @@ class Home extends Component {
 
     handleDetail = (question) => {
         this.setState({ question });
-    }
-
-    resetQuestion = () => {
-        this.setState({ question: null, result: false });
-    }
-
-    updateData = (question) => {
-        this.props.dispatch(handleInitialDate());
-
-        this.setState({ question, result: true });
     }
 
     renderHome = () => {
@@ -57,17 +45,18 @@ class Home extends Component {
     }
 
     render() {
-        const { question, result } = this.state;
+        const { question } = this.state;
 
         return question === null
             ? this.renderHome()
-            : <Detail
-                question={question}
-                currentTab={this.state.key}
-                clearQuestion={this.resetQuestion}
-                update={this.updateData}
-                result={result}
-            />;
+            : <Redirect to={{
+                        pathname: '/question/' + question.id,
+                        state: {
+                            question,
+                            currentTab: this.state.key,
+                        }
+                    }}
+              />
     }
 }
 

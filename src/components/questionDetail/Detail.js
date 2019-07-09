@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Card, Form, Button, ProgressBar, Spinner } from 'react-bootstrap';
 import { TAB_KEY } from '../home/Home';
-
+import { handleInitialDate } from '../../actions/shared';
 import { saveQuestionAnswer, getQuestion } from '../../utils/api';
 
 import './Detail.css';
@@ -15,28 +15,26 @@ class Detail extends Component {
         this.state = {
             chosenOption: null,
             loading: false,
+            result: false,
+            question: this.props.location.state.question
         }
-    }
-
-    cancelQuestion = () => {
-        this.props.clearQuestion();
     }
 
     submitAnswer = async (e) => {
         e.preventDefault();
         this.setState({ loading: true });
 
-        const { chosenOption } = this.state;
-        const { question, authedUser } = this.props;
+        const { chosenOption, question } = this.state;
+        const { authedUser } = this.props;
 
         const id = await saveQuestionAnswer({ authedUser, qid: question.id, answer: chosenOption });
 
         if (id) {
+            this.props.dispatch(handleInitialDate());
+
             const questions = await getQuestion();
-
-            this.props.update(questions[question.id]);
-
-            this.setState({ loading: false });
+            
+            this.setState({ loading: false, result: true, question: questions[question.id] });
         }
 
     }
@@ -94,7 +92,7 @@ class Detail extends Component {
                     <Button variant="outline-light" className="response-button" type="submit" disabled={this.disableButton()}>
                         {loading ? this.renderSpinner() : 'Submit'}
                     </Button>
-                    <Button variant="outline-light" className="response-button-cancel" onClick={this.cancelQuestion}>Cancel</Button>
+                    {/* <Button variant="outline-light" className="response-button-cancel" onClick={this.cancelQuestion}>Cancel</Button> */}
                 </Form>
             </Fragment>
         )
@@ -134,7 +132,9 @@ class Detail extends Component {
     }
 
     render() {
-        const { users, currentTab, question, result } = this.props;
+        const { currentTab } = this.props.location.state;
+        const { users } = this.props;
+        const { result, question } = this.state
 
         return (
             <Card key={question.id} className="question-container-detail">

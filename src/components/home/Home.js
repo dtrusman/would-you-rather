@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { NewQuestion, Board, QuestionCard, Detail } from '../';
-import { ROUTES } from '../nav/Nav';
+import { QuestionCard, Detail } from '../';
 import { Tabs, Tab } from 'react-bootstrap';
 import { handleInitialDate } from '../../actions/shared';
 
@@ -58,25 +57,17 @@ class Home extends Component {
     }
 
     render() {
-        const { tab } = this.props;
         const { question, result } = this.state;
 
-        switch (tab) {
-            case ROUTES.NEW:
-                return <NewQuestion />;
-            case ROUTES.BOARD:
-                return <Board />;
-            default:
-                return question === null
-                    ? this.renderHome()
-                    : <Detail
-                        question={question}
-                        currentTab={this.state.key}
-                        clearQuestion={this.resetQuestion}
-                        update={this.updateData}
-                        result={result}
-                    />;
-        }
+        return question === null
+            ? this.renderHome()
+            : <Detail
+                question={question}
+                currentTab={this.state.key}
+                clearQuestion={this.resetQuestion}
+                update={this.updateData}
+                result={result}
+            />;
     }
 }
 

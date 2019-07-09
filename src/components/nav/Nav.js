@@ -1,27 +1,34 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Nav, Navbar } from 'react-bootstrap';
 import Logout from '../logout/Logout';
-import { setSelectedTab } from '../../actions/selectedTab';
+import { Redirect } from 'react-router-dom';
 import './Nav.css';
 
 export const ROUTES = {
     HOME: 'HOME',
     NEW: 'NEW',
-    BOARD: 'BOARD' 
+    BOARD: 'BOARD'
 }
 
-function Navigation({ login = true, dispatch }) {
+class Navigation extends Component {
 
-    function handleSelectTab(selected) {
-        dispatch(setSelectedTab(selected));
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            route: null
+        }
     }
 
-    if (!login) {
+    handleSelectRoute = (route) => {
+        this.setState({ route });
+    }
 
+    renderLoggedNav = () => {
         return (
             <Navbar className="main-navbar">
-                <Nav variant="tabs" defaultActiveKey={ROUTES.HOME} className="logged-nav-bar" onSelect={handleSelectTab}>
+                <Nav variant="tabs" defaultActiveKey={ROUTES.HOME} className="logged-nav-bar" onSelect={this.handleSelectRoute}>
                     <Nav.Item>
                         <Nav.Link eventKey={ROUTES.HOME}>Home</Nav.Link>
                     </Nav.Item>
@@ -35,9 +42,9 @@ function Navigation({ login = true, dispatch }) {
                 </Nav>
             </Navbar>
         )
+    }
 
-    } else {
-
+    renderUnloggedNav = () => {
         return (
             <Navbar expand="lg" className="navbar">
                 <Navbar.Brand href="#">
@@ -47,6 +54,29 @@ function Navigation({ login = true, dispatch }) {
         )
     }
 
+    renderBody = () => {
+        const { route } = this.state;
+
+        switch (route) {
+            case ROUTES.NEW:
+                return <Redirect to="/new" />
+            case ROUTES.BOARD:
+                return <Redirect to="/leaderboard" />
+            case ROUTES.HOME:
+                return <Redirect to="/home" />
+            default:
+                return null
+        }
+    }
+
+    render() {
+        return (
+            <Fragment>
+                {!this.props.login ? this.renderLoggedNav() : this.renderUnloggedNav()}
+                {this.renderBody()}
+            </Fragment>
+        )
+    }
 }
 
 export default connect()(Navigation)

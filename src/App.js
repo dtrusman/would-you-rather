@@ -26,7 +26,7 @@ class App extends Component {
                         <Route exact path="/" component={Login} />
                         <Route path="/home" component={Home} />
                         <Route path="/new" component={NewQuestion} />
-                        <Route path="/board" component={Board} />
+                        <Route path="/leaderboard" component={Board} />
 
                         {authedUser === null && <Redirect to="/" />}
                     </div>

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LoadingBar from 'react-redux-loading';
-import { Login, Home, NewQuestion, Board, Nav, Detail } from './components';
+import { Login, Home, NewQuestion, Board, Nav, Detail, NotFound } from './components';
 
 import { handleInitialDate } from './actions/shared';
 
@@ -23,13 +23,14 @@ class App extends Component {
                 <div className="App">
                     <Nav login={authedUser === null} />
                     <div className="app-body">
-                        <Route exact path="/" component={Login} />
-                        <Route path="/home" component={Home} />
-                        <Route path="/add" component={NewQuestion} />
-                        <Route path="/leaderboard" component={Board} />
-                        <Route path="/question/:question_id" render={props => <Detail {...props} />} />
-
-                        {authedUser === null && <Redirect to="/" />}
+                        <Switch>
+                            <Route exact path="/" component={Login} />
+                            <Route path="/home" component={Home} />
+                            <Route path="/add" component={NewQuestion} />
+                            <Route path="/leaderboard" component={Board} />
+                            <Route path="/question/:question_id" render={props => <Detail {...props} />} />
+                            <Route component={NotFound} />
+                        </Switch>
                     </div>
                 </div>
             </Router>

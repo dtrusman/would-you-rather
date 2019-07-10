@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Card, Button, Form, Spinner } from 'react-bootstrap';
 import { saveQuestion } from '../../utils/api';
 import { handleInitialDate } from '../../actions/shared';
+import Login from '../login/Login';
+
 import './NewQuestion.css';
 
 const OPTIONS = {
@@ -90,6 +92,10 @@ class Question extends Component {
 
     render() {
         const { optionOne, optionTwo, loading } = this.state;
+
+        if (!this.props.authedUser) {
+            return <Login />
+        }
 
         return (
             <Card className="new-question-container">

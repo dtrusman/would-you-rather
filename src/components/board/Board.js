@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Card } from 'react-bootstrap';
+import Login from '../login/Login';
 
 import './Board.css';
 
@@ -73,6 +74,10 @@ class Board extends Component {
 
         const leaders = this.sortUsers();
 
+        if (!this.props.authedUser) {
+            return <Login />
+        }
+
         return (
             <div className="board-container">
                 {leaders.map(this.renderItem)}
@@ -83,7 +88,8 @@ class Board extends Component {
 
 function mapStateToProps(state) {
     return {
-        users: state.users
+        users: state.users,
+        authedUser: state.authedUser
     }
 }
 

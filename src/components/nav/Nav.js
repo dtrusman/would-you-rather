@@ -26,17 +26,19 @@ class Navigation extends Component {
     }
 
     renderLoggedNav = () => {
+        const pathname = window.location.pathname;
+
         return (
             <Navbar className="main-navbar">
                 <Nav variant="tabs" defaultActiveKey={ROUTES.HOME} className="logged-nav-bar" onSelect={this.handleSelectRoute}>
                     <Nav.Item>
-                        <Nav.Link eventKey={ROUTES.HOME}>Home</Nav.Link>
+                        <Nav.Link active={pathname === '/home'} eventKey={ROUTES.HOME}>Home</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link eventKey={ROUTES.NEW}>New Question</Nav.Link>
+                        <Nav.Link active={pathname === '/add'} eventKey={ROUTES.NEW}>New Question</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link eventKey={ROUTES.BOARD}>Leader Board</Nav.Link>
+                        <Nav.Link active={pathname === '/leaderboard'} eventKey={ROUTES.BOARD}>Leader Board</Nav.Link>
                     </Nav.Item>
                     <Logout />
                 </Nav>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { QuestionCard } from '../';
+import { QuestionCard, Login } from '../';
 import { Tabs, Tab } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import './Home.css';
@@ -47,6 +47,10 @@ class Home extends Component {
     render() {
         const { question } = this.state;
 
+        if (!this.props.authedUser) {
+            return <Login />
+        }
+
         return question === null
             ? this.renderHome()
             : <Redirect to={{
@@ -62,7 +66,8 @@ class Home extends Component {
 
 function mapStateToProps(state) {
     return {
-        tab: state.selectedTab
+        tab: state.selectedTab,
+        authedUser: state.authedUser
     }
 }
 

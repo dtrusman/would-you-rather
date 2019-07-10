@@ -4,6 +4,7 @@ import { Card, Button, Form, Spinner } from 'react-bootstrap';
 import { saveQuestion } from '../../utils/api';
 import { handleInitialDate } from '../../actions/shared';
 import Login from '../login/Login';
+import { Redirect } from 'react-router-dom';
 
 import './NewQuestion.css';
 
@@ -21,6 +22,7 @@ class Question extends Component {
             optionOne: '',
             optionTwo: '',
             loading: false,
+            goHome: false, 
         }
     }
 
@@ -45,7 +47,8 @@ class Question extends Component {
             this.setState({
                 optionOne: '',
                 optionTwo: '',
-                loading: false
+                loading: false,
+                goHome: true
             });
         }
 
@@ -91,10 +94,14 @@ class Question extends Component {
     }
 
     render() {
-        const { optionOne, optionTwo, loading } = this.state;
+        const { optionOne, optionTwo, loading, goHome } = this.state;
 
         if (!this.props.authedUser) {
             return <Login />
+        }
+
+        if (goHome) {
+            return <Redirect to='/home' />
         }
 
         return (

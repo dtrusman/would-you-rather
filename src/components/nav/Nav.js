@@ -18,7 +18,23 @@ class Navigation extends Component {
 
         this.state = {
             route: null,
-            pathname: window.location.pathname
+            pathname: this.props.pathname
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.pathname !== prevState.pathname) {
+            return { pathname: nextProps.pathname };
+        }
+        else return null;
+    }
+
+    componentDidUpdate(props, state) {
+        console.log('pppppppp', props, state)
+        if (props.pathname !== state.pathname) {
+            this.setState({
+                pathname: state.pathname
+            })
         }
     }
 
@@ -96,4 +112,11 @@ class Navigation extends Component {
     }
 }
 
-export default connect()(Navigation)
+function mapStateToProps(state) {
+    console.log('state', state)
+    return {
+        pathname: state.route
+    }
+}
+
+export default connect(mapStateToProps)(Navigation)

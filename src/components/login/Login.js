@@ -6,6 +6,7 @@ import { setAuthedUser } from '../../actions/authedUser';
 import SweetAlert from 'react-bootstrap-sweetalert';
 import Select from '../select/Select';
 import './Login.css';
+import { setRoutePath } from '../../actions/route';
 
 class Login extends Component {
 
@@ -24,6 +25,7 @@ class Login extends Component {
         
         if (authedUser !== null) {
             this.props.dispatch(setAuthedUser(authedUser));
+            this.props.dispatch(setRoutePath('/home'));
             this.setState({ redirect: true });
         }
         else {

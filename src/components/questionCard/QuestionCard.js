@@ -52,6 +52,14 @@ class QuestionCard extends Component {
                 currentTab: this.props.currentTab
             });
         }
+
+        if (this.props.questions !== prevProps.questions) {
+            const [questionsUnanswered, questionsAnswered] = await this.filterQuestions();
+            this.setState({
+                questionsUnanswered,
+                questionsAnswered
+            });
+        }
     }
 
     filterQuestions = () => {

@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Card, Form, Button, ProgressBar, Spinner } from 'react-bootstrap';
-import { TAB_KEY } from '../home/Home';
+import Login from '../login/Login';
 import { handleInitialDate } from '../../actions/shared';
 import { saveQuestionAnswer, getQuestion } from '../../utils/api';
+
 
 import './Detail.css';
 
@@ -16,7 +17,35 @@ class Detail extends Component {
             chosenOption: null,
             loading: false,
             result: false,
-            question: this.props.location.state.question
+            questions: null,
+            currentQuestion: null
+        }
+    }
+
+    componentDidMount() {
+        const { questions } = this.state;
+        const { question_id } = this.props.match.params;
+        
+        if (this.props.location.state && this.props.location.state.redirect) {
+            this.setState({
+                currentQuestion: this.props.location.state.question
+            })
+        }
+        else if (questions && question_id) {
+            this.setState({
+                currentQuestion: questions[question_id]
+            })
+        }
+    }
+
+    componentDidUpdate(props, state) {
+        const { question_id } = this.props.match.params;
+
+        if (props.questions !== state.questions) {
+            this.setState({
+                questions: props.questions,
+                currentQuestion: props.questions[question_id]
+            })
         }
     }
 
@@ -33,7 +62,7 @@ class Detail extends Component {
             this.props.dispatch(handleInitialDate());
 
             const questions = await getQuestion();
-            
+
             this.setState({ loading: false, result: true, question: questions[question.id] });
         }
 
@@ -131,23 +160,37 @@ class Detail extends Component {
     }
 
     render() {
-        const { currentTab } = this.props.location.state;
-        const { users } = this.props;
-        const { result, question } = this.state
+        const { users, authedUser } = this.props;
+        const { currentQuestion } = this.state
 
-        return (
-            <Card key={question.id} className="question-container-detail">
-                <Card.Header>{`${question.author} asks:`}</Card.Header>
-                <Card.Body className="question-body">
-                    <div className="user-image-results">
-                        <img src={require(`../../resources/icons/${users[question.author].avatarURL}`)} alt="Avatar" className="question-avatar-results" />
-                    </div>
-                    <div className="question-content">
-                        {currentTab === TAB_KEY.UNANSWERED && !result ? this.renderQuestionContent(question) : this.renderResult(question)}
-                    </div>
-                </Card.Body>
-            </Card>
-        )
+        if (!this.props.authedUser) {
+            return <Login />
+        }
+
+        if (currentQuestion) {
+            let unanswered = true;
+            if (currentQuestion.optionOne.votes.includes(authedUser)
+                || currentQuestion.optionTwo.votes.includes(authedUser)) {
+                unanswered = false
+            }
+
+            return (
+                <Card key={currentQuestion.id} className="question-container-detail">
+                    <Card.Header>{`${currentQuestion.author} asks:`}</Card.Header>
+                    <Card.Body className="question-body">
+                        <div className="user-image-results">
+                            <img src={require(`../../resources/icons/${users[currentQuestion.author].avatarURL}`)} alt="Avatar" className="question-avatar-results" />
+                        </div>
+                        <div className="question-content">
+                            {unanswered ? this.renderQuestionContent(currentQuestion) : this.renderResult(currentQuestion)}
+                        </div>
+                    </Card.Body>
+                </Card>
+            )
+        }
+        else {
+            return <div>Loading..........</div>
+        }
     }
 }
 
@@ -155,6 +198,7 @@ function mapStateToProps(state) {
     return {
         users: state.users,
         authedUser: state.authedUser,
+        questions: state.questions
     }
 }
 

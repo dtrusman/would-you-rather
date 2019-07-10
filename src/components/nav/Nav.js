@@ -17,16 +17,31 @@ class Navigation extends Component {
         super(props);
 
         this.state = {
-            route: null
+            route: null,
+            pathname: window.location.pathname
         }
     }
 
     handleSelectRoute = (route) => {
-        this.setState({ route });
+        let pathname;
+
+        switch (route) {
+            case ROUTES.HOME:
+                pathname = '/home'
+                break
+            case ROUTES.NEW:
+                pathname = '/add'
+                break
+            case ROUTES.BOARD:
+                pathname = '/leaderboard'
+                break
+        }
+
+        this.setState({ route, pathname });
     }
 
     renderLoggedNav = () => {
-        const pathname = window.location.pathname;
+        const { pathname } = this.state;
 
         return (
             <Navbar className="main-navbar">

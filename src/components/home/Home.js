@@ -58,6 +58,7 @@ class Home extends Component {
                         state: {
                             question,
                             currentTab: this.state.key,
+                            redirect: true
                         }
                     }}
               />

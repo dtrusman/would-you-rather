@@ -4,7 +4,7 @@ import { Card, Form, Button, ProgressBar, Spinner } from 'react-bootstrap';
 import Login from '../login/Login';
 import { handleInitialDate } from '../../actions/shared';
 import { saveQuestionAnswer, getQuestion } from '../../utils/api';
-
+import NotFound from '../404/NotFound';
 
 import './Detail.css';
 
@@ -189,7 +189,7 @@ class Detail extends Component {
             )
         }
         else {
-            return <div>Loading..........</div>
+            return <NotFound />
         }
     }
 }

@@ -4,6 +4,7 @@ import { Card, Button } from 'react-bootstrap';
 
 import './QuestionCard.css';
 import { TAB_KEY } from '../home/Home';
+import NotFound from '../404/NotFound';
 
 class QuestionCard extends Component {
 
@@ -138,7 +139,7 @@ class QuestionCard extends Component {
             });
         }
         else {
-            return <div>Loading...</div>
+            return <NotFound />
         }
     }
 }

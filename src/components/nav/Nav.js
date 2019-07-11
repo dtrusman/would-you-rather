@@ -30,7 +30,6 @@ class Navigation extends Component {
     }
 
     componentDidUpdate(props, state) {
-        console.log('pppppppp', props, state)
         if (props.pathname !== state.pathname) {
             this.setState({
                 pathname: state.pathname
@@ -50,6 +49,9 @@ class Navigation extends Component {
                 break
             case ROUTES.BOARD:
                 pathname = '/leaderboard'
+                break
+            default:
+                pathname = null
                 break
         }
 
@@ -113,7 +115,6 @@ class Navigation extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('state', state)
     return {
         pathname: state.route
     }

@@ -53,17 +53,17 @@ class Detail extends Component {
         e.preventDefault();
         this.setState({ loading: true });
 
-        const { chosenOption, question } = this.state;
+        const { chosenOption, currentQuestion } = this.state;
         const { authedUser } = this.props;
 
-        const id = await saveQuestionAnswer({ authedUser, qid: question.id, answer: chosenOption });
+        const id = await saveQuestionAnswer({ authedUser, qid: currentQuestion.id, answer: chosenOption });
 
         if (id) {
             this.props.dispatch(handleInitialDate());
 
             const questions = await getQuestion();
 
-            this.setState({ loading: false, result: true, question: questions[question.id] });
+            this.setState({ loading: false, result: true, question: questions[currentQuestion.id] });
         }
 
     }
